@@ -6,12 +6,37 @@ import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ThePurgeArena extends JavaPlugin{
 	
-	private static final Logger log = Logger.getLogger("Minecraft");
+	public static ThePurgeArena instance;
+	public static FileConfiguration messages, database, signs, reset, chestloot, scoreboard, barapi, kits;
+	
+	public static ArenaManager arenaManager;
+	public static GameManager gameManager;
+	public static ChestManager chestManager;
+	public static UserManager userManger;
+	public static SignManager signManager;
+	public static ScoreBoardManager scoreBoardManager;
+	
+	public static Economy econ;
+	
+	public static String version = "PurgeArena - Version ";
+	
+	private static PluginManager pm = Bukkit.getPluginManager();
+	
+	public void onDisable() {
+		if(gameManager != null) {
+			for(Game game : gameManager.getGames()) {
+				game.kickall();
+			}
+		}
+		DatabaseManager.close();
+	}
 
 	public void onEnable(){
 		if(!Bukkit.getPluginManager().isPluginEnabled("Worldedit")){
@@ -63,7 +88,7 @@ public class ThePurgeArena extends JavaPlugin{
 		try {
 			new Metrics(this).start();
 		} catch (IOException e) {
-			System.err.println("[SurvivalGames] Cannot load metrics: " + e.getMessage());
+			System.err.println("[PurgeArena] Cannot load metrics: " + e.getMessage());
 		}
 		
 		if(getWorldEdit() != null) {
@@ -74,21 +99,136 @@ public class ThePurgeArena extends JavaPlugin{
 		
 		signManager.updateSigns();
 	}
-
 	
-	{	
-		
+
+// UPDATE CHECKING
+
+public void startUpdateChecker() {
+	Bukkit.getScheduler().runTaskTimer(this, new Runnable() {
+		public void run() {
+			new UpdateCheck(ThePurgeArena.instance, 61788);
+		}
+	}, 0L, 216000);
+}
+
+// VAULT
+
+private boolean setupEconomy() {
+	if(Bukkit.getPluginManager().isPluginEnabled("Vault")) {
+		RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(Economy.class);
+        if (economyProvider != null) {
+            econ = economyProvider.getProvider();
+        }
+	}
+
+    return (econ != null);
+}
+
+// FILECONFIGURATION SAVE
+
+public static void saveMessages() {
+	try {
+		messages.save("plugins/ThePurgeArena/messages.yml");
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+}
+
+public static void saveDataBase() {
+	try {
+		database.save("plugins/ThePurgeArena/database.yml");
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+}
+
+public static void saveSigns() {
+	try {
+		signs.save("plugins/ThePurgeArena/signs.yml");
+	} catch(IOException e) {
+		e.printStackTrace();
+	}
+}
+
+public static void saveReset() {
+	try {
+		reset.save("plugins/ThePurgeArena/reset.yml");
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+}
+
+public static void saveChests() {
+	try {
+		chestloot.save("plugins/ThePurgeArena/chestloot.yml");
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+}
+
+public static void saveScoreboard() {
+	try {
+		scoreboard.save("plugins/ThePurgeArena/scoreboard.yml");
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+}
+
+public static void saveBarAPI() {
+	try {
+		barapi.save("plugins/ThePurgeArena/barapi.yml");
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+}
+
+public static void saveKits() {
+	try {
+		kits.save("plugins/ThePurgeArena/kits.yml");
+	} catch(IOException e) {
+		e.printStackTrace();
+	}
+}
+
+// WORLDEDIT
+
+public static WorldEditPlugin getWorldEdit() {
+	if(!pm.isPluginEnabled("WorldEdit")) {
+		return null;
+	} else {
+		return (WorldEditPlugin) pm.getPlugin("WorldEdit");
+	}
+}
+
+// API
+
+public static GameManager getGameManager() {
+	return gameManager;
+}
+
+public static ArenaManager getArenaManager() {
+	return arenaManager;
+}
+
+public static ChestManager getChestManager() {
+	return chestManager;
+}
+
+public static UserManager getUserManager() {
+	return userManger;
+}
+
+public static SignManager getSignManager() {
+	return signManager;
+}
+
+public static ScoreBoardManager getScoreboardManager() {
+	return scoreBoardManager;
+}
+
+public static SurvivalGames getInstance() {
+	return instance;
 }
 
 
-	public void onDisable()
-	{
-		
-	}
-
-	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
-	{
-		return false;
-		
-	}
 }
