@@ -1,0 +1,10 @@
+name: PurgeArena
+author: Weschke55
+main: me.weschke55.ThePurgeArena.ThePurgeArena
+version: Beta dev1.0
+softdepend: [WorldEdit,Vault,Multiverse-Core,BarAPI,PermissionsEx]
+
+commands:
+  purge:
+    description: PurgeArena Main Command
+    aliases: [pa]
