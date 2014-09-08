@@ -13,6 +13,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
+import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
 import com.sk89q.worldedit.bukkit.selections.Selection;
 
 public class ArenaManager {
@@ -65,7 +66,7 @@ public class ArenaManager {
 			return;
 		}
 		
-		Selection sel = new Selection(min, max);
+		CuboidSelection sel =  new CuboidSelection(null, min, max);
 		
 		p.sendMessage(MessageHandler.getMessage("prefix") + "Saveing arena... This may take a while. Laggs can occure. You'll get a message, when the save is completed.");
 		new Save(gamename, arenaname, sel, p.getName()).start();
