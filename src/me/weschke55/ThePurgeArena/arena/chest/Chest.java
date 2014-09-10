@@ -1,4 +1,4 @@
-package chest;
+package me.weschke55.ThePurgeArena.arena.chest;
 
 import org.bukkit.Location;
 import org.bukkit.inventory.Inventory;

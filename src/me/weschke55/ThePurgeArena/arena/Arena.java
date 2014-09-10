@@ -1,4 +1,4 @@
-package arena;
+package me.weschke55.ThePurgeArena.arena;
 
 import java.util.List;
 

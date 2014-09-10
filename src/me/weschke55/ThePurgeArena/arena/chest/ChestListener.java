@@ -1,19 +1,19 @@
-package chest;
+package me.weschke55.ThePurgeArena.arena.chest;
 
 import me.weschke55.ThePurgeArena.ThePurgeArena;
+import me.weschke55.ThePurgeArena.arena.Arena;
 import net.minecraft.util.com.mojang.authlib.yggdrasil.response.User;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-
-import arena.Arena;
 
 public class ChestListener implements Listener {
 	
