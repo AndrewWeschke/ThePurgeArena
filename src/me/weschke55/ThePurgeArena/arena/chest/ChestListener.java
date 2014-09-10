@@ -2,7 +2,6 @@ package me.weschke55.ThePurgeArena.arena.chest;
 
 import me.weschke55.ThePurgeArena.ThePurgeArena;
 import me.weschke55.ThePurgeArena.arena.Arena;
-import net.minecraft.util.com.mojang.authlib.yggdrasil.response.User;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -18,7 +17,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class ChestListener implements Listener {
 	
 	private UserManager um = ThePurgeArena.userManger;
-	private ChestManager cm = ThePurgeArena.chestManager;
+	private ChestManager cm = new ChestManager();
 	
 	@SuppressWarnings("deprecation")
 	@EventHandler
@@ -46,9 +45,9 @@ public class ChestListener implements Listener {
 					if(game.isChestRegistered(loc)) {
 						p.openInventory(game.getChest(loc).getInventory());
 					} else {
-						Chest chest = cm.getRandomChest(p, loc, type == Material.ENDER_CHEST);
+						Chest chest = (Chest) cm.getRandomChest(p, loc, type == Material.ENDER_CHEST);
 						game.registerChest(chest);
-						user.setCurrentChest(chest);
+						 user.setCurrentChest(chest);
 						b.getState().update(true);
 						
 						p.openInventory(chest.getInventory());
