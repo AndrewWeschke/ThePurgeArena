@@ -28,7 +28,7 @@ public class MessageHandler {
 		withoutPrefix.add("stats-points");
 		withoutPrefix.add("stats-footer");
 		
-		System.out.println("[SurvivalGames] " + messages.size() + " messages loaded!");
+		System.out.println("[PurgeArena] " + messages.size() + " messages loaded!");
 	}
 	
 	public static String getMessage(String name) {
